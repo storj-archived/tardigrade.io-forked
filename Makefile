@@ -2,7 +2,7 @@ VERSION := $(shell utils/version)
 export VERSION
 
 BRANCH_NAME ?= $(shell git rev-parse --abbrev-ref HEAD | sed "s!/!-!g")
-ifeq (${BRANCH_NAME},master)
+ifeq (${BRANCH_NAME},main)
 TAG ?= ${VERSION}
 CLUSTER ?= prod
 DEPLOYMENT ?= tardigrade-io
@@ -14,7 +14,7 @@ endif
 
 
 .PHONY: build
-ifeq (${BRANCH_NAME},master)
+ifeq (${BRANCH_NAME},main)
 build:
 	docker build -t storjlabs/tardigrade.io:${TAG} .
 else
@@ -23,7 +23,7 @@ build:
 endif
 
 .PHONY: push
-ifeq (${BRANCH_NAME},master)
+ifeq (${BRANCH_NAME},main)
 push:
 	docker push storjlabs/tardigrade.io:${TAG}
 	docker tag storjlabs/tardigrade.io:${TAG} storjlabs/tardigrade.io:$(shell echo '$${VERSION%.*}')
